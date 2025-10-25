@@ -63,18 +63,14 @@ async def human_like_delay(min_sec=1, max_sec=3):
 
 async def random_human_activity(page):
     """Perform random activities to appear more human"""
-    activity = random.choice(['scroll', 'wait', 'nothing', 'nothing'])
+    activity = random.choice(['wait', 'nothing', 'nothing', 'nothing'])
 
-    if activity == 'scroll':
-        scroll_amount = random.randint(100, 500)
-        await page.evaluate(f"window.scrollBy(0, {scroll_amount})")
-        await asyncio.sleep(random.uniform(0.5, 1.5))
-    elif activity == 'wait':
-        await asyncio.sleep(random.uniform(1, 3))
+    if activity == 'wait':
+        await asyncio.sleep(random.uniform(0.8, 1.5))
 
 
 async def cancel_follow_request(page, username, index, total):
-    """Cancel a single follow request - works with both Turkish and English Instagram"""
+    """Cancel a single follow request"""
     try:
         await page.goto(f"https://www.instagram.com/{username}/", wait_until="domcontentloaded")
         await human_like_delay(1, 2)
@@ -83,23 +79,19 @@ async def cancel_follow_request(page, username, index, total):
         try:
             request_button = None
 
-            # Try multiple selectors for the "Requested" button
-            # Turkish: "İstek Gönderildi", English: "Requested"
             selectors_requested = [
-                'button:has-text("İstek Gönderildi")',  # Turkish
-                'button:has-text("Requested")',          # English
-                'button:has-text("Demande envoyée")',    # French
-                'button:has-text("Solicitud enviada")',  # Spanish
-                'button:has-text("Richiesta inviata")',  # Italian
-                'button:has-text("Anfrage gesendet")',   # German
-                # Generic class selector (backup)
+                'button:has-text("İstek Gönderildi")',
+                'button:has-text("Requested")',
+                'button:has-text("Demande envoyée")',
+                'button:has-text("Solicitud enviada")',
+                'button:has-text("Richiesta inviata")',
+                'button:has-text("Anfrage gesendet")',
                 'button._acan._acap._acas._aj1-._ap30',
-                'button[aria-label*="Requested"]',       # Aria label
+                'button[aria-label*="Requested"]',
                 'div[role="button"]:has-text("Requested")',
                 '//button[contains(@class, "_ac") and (contains(., "Requested") or contains(., "İstek Gönderildi"))]'
             ]
 
-            # Try each selector until one works
             for selector in selectors_requested:
                 try:
                     request_button = page.locator(selector).first
@@ -109,7 +101,6 @@ async def cancel_follow_request(page, username, index, total):
                 except:
                     continue
             else:
-                # If no text-based selector worked, try the generic button
                 generic_button = page.locator('button').filter(has_text=True)
                 for i in range(await generic_button.count()):
                     btn = generic_button.nth(i)
@@ -122,21 +113,18 @@ async def cancel_follow_request(page, username, index, total):
 
             await human_like_delay(0.5, 1)
 
-            # Try multiple selectors for the "Unfollow" button in the popup
-            # Turkish: "Takibi Bırak", English: "Unfollow"
             selectors_unfollow = [
-                'button:has-text("Takibi Bırak")',      # Turkish
-                'button:has-text("Unfollow")',          # English
-                'button:has-text("Ne plus suivre")',    # French
-                'button:has-text("Dejar de seguir")',   # Spanish
-                'button:has-text("Non seguire più")',   # Italian
-                'button:has-text("Nicht mehr folgen")',  # German
-                'button._a9--._ap36._a9-_',             # Generic class
+                'button:has-text("Takibi Bırak")',
+                'button:has-text("Unfollow")',
+                'button:has-text("Ne plus suivre")',
+                'button:has-text("Dejar de seguir")',
+                'button:has-text("Non seguire più")',
+                'button:has-text("Nicht mehr folgen")',
+                'button._a9--._ap36._a9-_',
                 'button[type="button"]:has-text("Unfollow")',
                 '//button[contains(text(), "Unfollow") or contains(text(), "Takibi Bırak")]'
             ]
 
-            # Try each unfollow selector
             for selector in selectors_unfollow:
                 try:
                     unfollow_button = page.locator(selector).first
@@ -149,20 +137,17 @@ async def cancel_follow_request(page, username, index, total):
 
             await human_like_delay(0.5, 1)
 
-            # Verify the follow button appears (indicates success)
-            # Turkish: "Takip Et", English: "Follow"
             selectors_follow = [
-                'button:has-text("Takip Et")',         # Turkish
-                'button:has-text("Follow")',           # English
-                'button:has-text("Suivre")',           # French
-                'button:has-text("Seguir")',           # Spanish
-                'button:has-text("Segui")',            # Italian
-                'button:has-text("Folgen")',           # German
+                'button:has-text("Takip Et")',
+                'button:has-text("Follow")',
+                'button:has-text("Suivre")',
+                'button:has-text("Seguir")',
+                'button:has-text("Segui")',
+                'button:has-text("Folgen")',
                 'button._acan._acap._acas._aj1-._ap30:has-text("Follow")',
                 'button[aria-label*="Follow"]'
             ]
 
-            # Check if follow button is visible
             for selector in selectors_follow:
                 try:
                     follow_button = page.locator(selector).first
@@ -172,38 +157,13 @@ async def cancel_follow_request(page, username, index, total):
                 except:
                     continue
 
-            # If we got here, check by button text change
             return True
 
         except Exception as e:
-            # Debug info if needed
-            # print(f"Debug: Error for @{username}: {str(e)}")
             return False
 
     except Exception as e:
-        # print(f"Navigation error for @{username}: {str(e)}")
         return False
-
-
-async def detect_language(page):
-    """Detect Instagram interface language"""
-    try:
-        # Check for common elements to detect language
-        await page.goto("https://www.instagram.com/", wait_until="domcontentloaded")
-        await asyncio.sleep(2)
-
-        # Check page content for language indicators
-        page_content = await page.content()
-
-        if "Takip Et" in page_content or "Profili Düzenle" in page_content:
-            return "TR"
-        elif "Follow" in page_content or "Edit Profile" in page_content:
-            return "EN"
-        else:
-            # Default to English
-            return "EN"
-    except:
-        return "EN"
 
 
 async def main():
@@ -257,13 +217,6 @@ async def main():
         page = pages[0]
         print("Successfully connected to Chrome!")
 
-        # Detect language
-        print("Detecting Instagram language...")
-        lang = await detect_language(page)
-        print(f"Detected language: {'Turkish' if lang == 'TR' else 'English'}")
-        print("Script will work with both Turkish and English interfaces")
-
-        # Bring Chrome to front
         await page.bring_to_front()
         await asyncio.sleep(0.5)
 
