@@ -2,6 +2,16 @@
 
 Cancel all your pending Instagram follow requests in bulk with human-like behavior to avoid detection.
 
+**What does this tool do?**  
+Over time, you may have sent hundreds of follow requests that are still pending. Instagram doesn't provide a way to bulk cancel these requests, nor does it even show you a list of your pending requests. You have to manually remember and visit each profile one by one to cancel. This tool automates that process by using your exported Instagram data to find and cancel all your pending follow requests that have been waiting for days, weeks, or even months.
+
+**Why would you need this?**
+- Clean up hundreds of old pending requests you don't even remember sending
+- Start fresh with your follow requests
+- Remove requests from inactive or private accounts
+- Save hours of manual work
+- See exactly who you've sent requests to (Instagram doesn't show this)
+
 ## 🌍 Language / Dil
 
 - [English](#english)
@@ -115,6 +125,16 @@ The script performs the following actions for each pending request:
 ---
 
 ## Türkçe
+
+**Bu araç ne yapar?**  
+Zamanla yüzlerce takip isteği göndermiş ve hala "İstek Gönderildi" durumunda bekleyen istekleriniz birikmiş olabilir. Instagram bu istekleri toplu iptal etme özelliği sunmadığı gibi, bekleyen isteklerinizin listesini bile göstermez. Kimlere istek gönderdiğinizi hatırlamanız ve tek tek her profile girip iptal etmeniz gerekir. Bu araç, Instagram'dan dışa aktardığınız veriyi kullanarak günlerdir, haftalardır hatta aylardır bekleyen tüm takip isteklerinizi bulur ve otomatik olarak iptal eder.
+
+**Neden ihtiyaç duyabilirsiniz?**
+- Gönderdiğinizi bile unuttuğunuz yüzlerce eski isteği temizlemek için
+- Takip isteklerinizde yeni bir başlangıç yapmak için
+- İnaktif veya gizli hesaplara gönderilen istekleri kaldırmak için
+- Saatlerce sürecek manuel işten kurtulmak için
+- Kimlere istek gönderdiğinizi görmek için (Instagram bunu göstermez)
 
 ### Özellikler
 
