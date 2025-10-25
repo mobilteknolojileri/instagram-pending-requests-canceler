@@ -24,11 +24,20 @@ Over time, you may have sent hundreds of follow requests that are still pending.
 ### Features
 
 - Bulk cancel pending follow requests
-- Multi-language support (works with any Instagram language)
-- Human-like behavior with random delays and actions
+- Multi-language support (Turkish, English, French, Spanish, Italian, German)
+- Human-like behavior with random delays and activities
 - Progress tracking and detailed statistics
 - Browser automation using existing Chrome session
 - Safe operation with breaks to avoid rate limiting
+
+### Supported Languages
+
+- 🇹🇷 Turkish (Türkçe)
+- 🇬🇧 English
+- 🇫🇷 French (Français)
+- 🇪🇸 Spanish (Español)
+- 🇮🇹 Italian (Italiano)
+- 🇩🇪 German (Deutsch)
 
 ### Prerequisites
 
@@ -102,7 +111,7 @@ python cancel_requests.py
 
 The script performs the following actions for each pending request:
 1. Navigates to user profile
-2. Clicks "Requested" button (works in any language)
+2. Clicks "Requested" button (detects button in any language)
 3. Selects "Unfollow" option
 4. Implements random delays between actions
 5. Takes breaks every 20 and 50 users
@@ -112,7 +121,7 @@ The script performs the following actions for each pending request:
 - 2-3 seconds delay between each user
 - 20-30 seconds break every 20 users
 - 60-90 seconds break every 50 users
-- Random scrolling and waiting to mimic human behavior
+- Random waiting to mimic human behavior
 - Uses existing Chrome session to maintain cookies and session
 
 ### Notes
@@ -120,7 +129,7 @@ The script performs the following actions for each pending request:
 - Keep Chrome window visible during operation
 - Don't interact with the browser while script is running
 - Processing time approximately 20-25 minutes per 500 users
-- The script automatically detects your Instagram language
+- Works with Turkish, English, French, Spanish, Italian, and German Instagram interfaces
 
 ---
 
@@ -139,7 +148,7 @@ Zamanla yüzlerce takip isteği göndermiş ve hala "İstek Gönderildi" durumun
 ### Özellikler
 
 - Toplu takip isteği iptali
-- Çoklu dil desteği (tüm Instagram dilleriyle çalışır)
+- Works with major Instagram languages (see supported languages below)
 - İnsan benzeri davranış ile tespit edilmeme
 - İlerleme takibi ve detaylı istatistikler
 - Mevcut Chrome oturumu üzerinden tarayıcı otomasyonu
@@ -217,7 +226,7 @@ python cancel_requests.py
 
 Script her bekleyen istek için şu işlemleri yapar:
 1. Kullanıcı profiline gider
-2. "İstek Gönderildi" butonuna tıklar (tüm dillerde çalışır)
+2. "İstek Gönderildi" butonuna tıklar (her dilde butonu algılar)
 3. "Takibi Bırak" seçeneğini seçer
 4. İşlemler arasında rastgele gecikmeler uygular
 5. Her 20 ve 50 kullanıcıda mola verir
@@ -227,7 +236,7 @@ Script her bekleyen istek için şu işlemleri yapar:
 - Her kullanıcı arasında 2-3 saniye gecikme
 - Her 20 kullanıcıda 20-30 saniye mola
 - Her 50 kullanıcıda 60-90 saniye uzun mola
-- İnsan davranışını taklit için rastgele kaydırma ve bekleme
+- İnsan davranışını taklit için rastgele bekleme
 - Oturum bilgilerini korumak için mevcut Chrome oturumu kullanımı
 
 ### Notlar
@@ -235,7 +244,7 @@ Script her bekleyen istek için şu işlemleri yapar:
 - İşlem sırasında Chrome penceresi görünür durumda olmalı
 - Script çalışırken tarayıcıyla etkileşime girmeyin
 - 500 kullanıcı için yaklaşık 20-25 dakika sürer
-- Script Instagram dilinizi otomatik algılar
+- Türkçe, İngilizce, Fransızca, İspanyolca, İtalyanca ve Almanca Instagram arayüzleriyle çalışır
 
 ---
 
