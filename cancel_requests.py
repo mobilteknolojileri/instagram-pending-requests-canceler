@@ -1,6 +1,8 @@
 import asyncio
 import random
 import json
+import os
+import re
 from pathlib import Path
 from playwright.async_api import async_playwright
 from datetime import datetime
@@ -11,15 +13,20 @@ def select_json_file():
     print("\nEnter the path to your pending_follow_requests.json file:")
 
     while True:
-        user_input = input("Path: ").strip()
+        # Remove surrounding quotes added by drag and drop
+        user_input = input("Path: ").strip().strip('"\'')
 
         if not user_input:
             print("Please enter a valid path!")
             continue
 
-        # Normalize path separators
-        user_input = user_input.replace('\\', '/')
-        file_path = Path(user_input)
+        if os.name == 'nt':
+            # Normalize path separators
+            user_input = user_input.replace('\\', '/')
+        else:
+            # macOS and Linux terminals escape spaces with a backslash on drag and drop
+            user_input = re.sub(r'\\(.)', r'\1', user_input)
+        file_path = Path(user_input).expanduser()
 
         if not file_path.exists():
             print(f"File not found: {file_path}")
@@ -196,7 +203,7 @@ async def main():
     print(
         f"\nEstimated Time: ~{(limit * 3 + (limit // 20) * 25 + (limit // 50) * 75) // 60} minutes")
     print("\nStarting... (Press Ctrl+C to cancel)")
-    await asyncio.sleep(3)
+    await asyncio.sleep(2)
 
     async with async_playwright() as p:
         print("\nConnecting to Chrome...")
