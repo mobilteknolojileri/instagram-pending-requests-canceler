@@ -38,17 +38,39 @@ def select_json_file():
         return file_path
 
 
+def extract_username(item):
+    """Get the username from one export entry, Instagram moves it between fields"""
+    string_list = item.get("string_list_data") or [{}]
+    entry = string_list[0]
+
+    if entry.get("value"):
+        return entry["value"]
+    if item.get("title"):
+        return item["title"]
+
+    # Fall back to the last part of the profile link: https://www.instagram.com/_u/username
+    href = entry.get("href", "").split("?")[0].rstrip("/")
+    return href.rsplit("/", 1)[-1] if href else None
+
+
 def read_json(file_path):
     """Extract usernames from Instagram data export JSON"""
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
+        # Older exports wrap the list in an object, newer ones are a plain list
+        if isinstance(data, dict):
+            items = data.get("relationships_follow_requests_sent")
+            if items is None:
+                items = next((v for v in data.values() if isinstance(v, list)), [])
+        else:
+            items = data
+
         usernames = []
-        for item in data.get("relationships_follow_requests_sent", []):
-            string_list = item.get("string_list_data", [])
-            if string_list:
-                username = string_list[0].get("value")
+        for item in items:
+            if isinstance(item, dict):
+                username = extract_username(item)
                 if username:
                     usernames.append(username)
 
